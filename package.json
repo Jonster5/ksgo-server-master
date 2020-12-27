@@ -1,0 +1,27 @@
+{
+  "name": "ksgo-server-master",
+  "version": "1.0.0",
+  "description": "master server for ksgo",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jonster5/ksgo-server-master.git"
+  },
+  "keywords": [
+    "ksgo"
+  ],
+  "author": "Codepebble",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/Jonster5/ksgo-server-master/issues"
+  },
+  "homepage": "https://github.com/Jonster5/ksgo-server-master#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "ws": "^7.4.1"
+  }
+}
