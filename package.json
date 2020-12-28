@@ -22,6 +22,7 @@
   "homepage": "https://github.com/Jonster5/ksgo-server-master#readme",
   "dependencies": {
     "fs": "0.0.1-security",
+    "url": "^0.11.0",
     "ws": "^7.4.1"
   }
 }
