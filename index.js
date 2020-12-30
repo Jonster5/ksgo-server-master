@@ -1,6 +1,6 @@
-const WebSocket = require('ws');
-const url = require('url');
-const fs = require('fs');
+import WebSocket from 'ws';
+// import url from 'url';
+// import fs from 'fs';
 
 const port = process.env.PORT || 5000;
 const WSS = new WebSocket.Server({ port });
@@ -15,6 +15,8 @@ WSS.on('connection', (ws, req) => {
 	ws.on('close', (data) => {
 		for (let [key, value] of servers) {
 			if (value.socket !== ws) continue;
+
+			console.log(`Server disconnected: ${key}`);
 			servers.delete(key);
 
 			const serverlist = Array.from(servers, ([k, v]) => ({
@@ -35,10 +37,9 @@ WSS.on('connection', (ws, req) => {
 		}
 		for (let [key, value] of clients) {
 			if (value.socket !== ws) continue;
+			console.log(`User disconnected: ${key}`);
 			clients.delete(key);
 		}
-		console.clear();
-		console.log(servers.size, clients.size);
 	});
 
 	ws.on('message', (data) => {
@@ -73,7 +74,7 @@ WSS.on('connection', (ws, req) => {
 					})
 				);
 
-				console.log(`user connected: ${clientid}`);
+				console.log(`User connected: ${clientid}`);
 				break;
 			case 'server-connect':
 				let serverid = Math.random().toString().slice(2, 7);
@@ -93,14 +94,13 @@ WSS.on('connection', (ws, req) => {
 					})
 				);
 
-				console.log('this');
 				const serverlist = Array.from(servers, ([key, value]) => ({
 					id: key,
 					name: value.name,
 					address: value.address,
 				}));
 				clients.forEach((client) => {
-					if (client.socket.readyState === WebSocket.OPEN) {
+					if (client.socket.readyState === OPEN) {
 						client.socket.send(
 							JSON.stringify({
 								id: 'user-serverlist',
@@ -110,7 +110,7 @@ WSS.on('connection', (ws, req) => {
 					}
 				});
 
-				console.log(`server connected: ${serverid}`);
+				console.log(`Server connected: ${serverid}`);
 				break;
 			default:
 				break;

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "master server for ksgo",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "nodemon index.js",
     "start": "node index.js"
