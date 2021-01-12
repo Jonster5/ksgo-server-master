@@ -2,7 +2,7 @@ import WebSocket from 'ws';
 // import url from 'url';
 // import fs from 'fs';
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 const WSS = new WebSocket.Server({ port });
 
 const clients = new Map();
@@ -100,7 +100,7 @@ WSS.on('connection', (ws, req) => {
 					address: value.address,
 				}));
 				clients.forEach((client) => {
-					if (client.socket.readyState === OPEN) {
+					if (client.socket.readyState === WebSocket.OPEN) {
 						client.socket.send(
 							JSON.stringify({
 								id: 'user-serverlist',
