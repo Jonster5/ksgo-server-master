@@ -1,40 +1,111 @@
 'use strict';
 
-var name = "ksgo_master";
-var version = "1.0.0";
-var main = "build/debug/index.js";
-var module$1 = "build/debug/index.es.js";
-var files = [
-	"dist"
-];
-var scripts = {
-	build: "rollup --config rollup.config.prod.js",
-	dev: "rollup -w --config rollup.config.dev.js"
-};
-var types = "dist/index.d.ts";
-var repository = "https://github.com/Jonster5/ksgo-server-master.git";
-var author = "Jonster5 <onlyaccelerating@gmail.com>";
-var license = "GPL-3.0";
-var devDependencies = {
-	"@rollup/plugin-json": "^4.1.0",
-	rollup: "^2.38.4",
-	"rollup-plugin-sourcemaps": "^0.6.3",
-	"rollup-plugin-terser": "^7.0.2",
-	"rollup-plugin-typescript2": "^0.29.0",
-	typescript: "^4.1.3"
-};
-var pkg = {
-	name: name,
-	version: version,
-	main: main,
-	module: module$1,
-	files: files,
-	scripts: scripts,
-	types: types,
-	repository: repository,
-	author: author,
-	license: license,
-	devDependencies: devDependencies
-};
+var WebSocket = require('ws');
 
-console.log(pkg.main);
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var WebSocket__default = /*#__PURE__*/_interopDefaultLegacy(WebSocket);
+
+// import url from 'url';
+// import fs from 'fs';
+const port = process.env.PORT || 4000;
+const WSS = new WebSocket__default['default'].Server({ port: parseInt(`${port}`) });
+const clients = new Map();
+const servers = new Map();
+console.clear();
+// console.log(servers.size, clients.size);
+WSS.on('connection', (ws, req) => {
+    ws.on('close', (data) => {
+        for (let [key, value] of servers) {
+            if (value.socket !== ws)
+                continue;
+            console.log(`Server disconnected: ${key}`);
+            servers.delete(key);
+            const serverlist = Array.from(servers, ([k, v]) => ({
+                id: k,
+                name: v.name,
+                address: v.address,
+            }));
+            clients.forEach((client) => {
+                if (client.socket.readyState === WebSocket__default['default'].OPEN) {
+                    client.socket.send(JSON.stringify({
+                        id: 'user-serverlist',
+                        content: serverlist,
+                    }));
+                }
+            });
+        }
+        for (let [key, value] of clients) {
+            if (value.socket !== ws)
+                continue;
+            console.log(`User disconnected: ${key}`);
+            clients.delete(key);
+        }
+    });
+    ws.on('message', (data) => {
+        const message = JSON.parse(data);
+        switch (message.id) {
+            case 'user-connect':
+                let clientid = Math.random().toString().slice(2, 10);
+                while (clients.has(clientid))
+                    clientid = Math.random().toString().slice(2, 10);
+                clients.set(clientid, {
+                    name: message.content,
+                    socket: ws,
+                });
+                ws.send(JSON.stringify({
+                    id: 'user-connect-confirm',
+                    content: clientid,
+                }));
+                ws.send(JSON.stringify({
+                    id: 'user-serverlist',
+                    content: Array.from(servers, ([key, value]) => ({
+                        id: key,
+                        name: value.name,
+                        address: value.address,
+                    })),
+                }));
+                console.log(`User connected: ${clientid}`);
+                break;
+            case 'server-connect':
+                let serverid = Math.random().toString().slice(2, 7);
+                while (clients.has(serverid))
+                    serverid = Math.random().toString().slice(2, 7);
+                servers.set(serverid, {
+                    name: message.content.name,
+                    address: message.content.address,
+                    socket: ws,
+                });
+                ws.send(JSON.stringify({
+                    id: 'server-connect-confirm',
+                    content: serverid,
+                }));
+                const serverlist = Array.from(servers, ([key, value]) => ({
+                    id: key,
+                    name: value.name,
+                    address: value.address,
+                }));
+                clients.forEach((client) => {
+                    if (client.socket.readyState === WebSocket__default['default'].OPEN) {
+                        client.socket.send(JSON.stringify({
+                            id: 'user-serverlist',
+                            content: serverlist,
+                        }));
+                    }
+                });
+                console.log(`Server connected: ${serverid}`);
+                break;
+        }
+        // console.clear();
+        // console.log(servers.size, clients.size);
+    });
+});
+/* ksgo-server/index.js: MWS -> WSS */
+// --- Game Server ---
+// server-connect <- { name: string, address: string }
+// server-connect-confirm -> { serverid: string }
+/* ksgo-client/public/msocket.js: MWS -> WSS */
+// --- User ---
+// user-connect <- { name: string }
+// user-connect-confirm -> { clientid: string }
+// user-serverlist -> [{id: string, info: {name, address}}]
