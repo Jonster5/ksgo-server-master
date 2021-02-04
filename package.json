@@ -1,0 +1,25 @@
+{
+	"name": "ksgo_master",
+	"version": "1.0.0",
+	"main": "build/debug/index.js",
+	"module": "build/debug/index.es.js",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "rollup --config rollup.config.prod.js",
+		"dev": "rollup -w --config rollup.config.dev.js"
+	},
+	"types": "dist/index.d.ts",
+	"repository": "https://github.com/Jonster5/ksgo-server-master.git",
+	"author": "Jonster5 <onlyaccelerating@gmail.com>",
+	"license": "GPL-3.0",
+	"devDependencies": {
+		"@rollup/plugin-json": "^4.1.0",
+		"rollup": "^2.38.4",
+		"rollup-plugin-sourcemaps": "^0.6.3",
+		"rollup-plugin-terser": "^7.0.2",
+		"rollup-plugin-typescript2": "^0.29.0",
+		"typescript": "^4.1.3"
+	}
+}
