@@ -9,8 +9,8 @@
 	"scripts": {
 		"build": "rollup --config rollup.config.prod.js",
 		"dev": "rollup -w --config rollup.config.dev.js",
-		"serve": "nodemon --watch --exec yarn start",
-		"start": "node build/debug/index.js"
+		"serve": "nodemon --watch --exec node build/debug/index.js",
+		"start": "node build/prod/index.js"
 	},
 	"types": "build/debug/index.d.ts",
 	"repository": "https://github.com/Jonster5/ksgo-server-master.git",
