@@ -1,16 +1,18 @@
 {
 	"name": "ksgo_master",
 	"version": "1.0.0",
-	"main": "build/debug/index.js",
-	"module": "build/debug/index.es.js",
+	"main": "build/prod/index.js",
+	"module": "build/prod/index.es.js",
 	"files": [
-		"dist"
+		"build"
 	],
 	"scripts": {
 		"build": "rollup --config rollup.config.prod.js",
-		"dev": "rollup -w --config rollup.config.dev.js"
+		"dev": "rollup -w --config rollup.config.dev.js",
+		"serve": "nodemon --watch --exec yarn start",
+		"start": "node build/debug/index.js"
 	},
-	"types": "dist/index.d.ts",
+	"types": "build/debug/index.d.ts",
 	"repository": "https://github.com/Jonster5/ksgo-server-master.git",
 	"author": "Jonster5 <onlyaccelerating@gmail.com>",
 	"license": "GPL-3.0",

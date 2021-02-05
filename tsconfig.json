@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
       "declaration": true,
-      "declarationDir": "./dist",
+      "declarationDir": "./build",
       "sourceMap": true,
       "module": "es6",
       "moduleResolution": "node",
       "resolveJsonModule": true,
       "allowSyntheticDefaultImports": true,
       "noImplicitAny": true,
-      "outDir": "./dist",
+      "outDir": "./build",
       "target": "ES6",
       "newLine": "crlf"
     },
