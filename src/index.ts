@@ -16,8 +16,8 @@ const servers: Array<ServerListItem> = [];
 console.clear();
 // console.log(servers.size, clients.size);
 
-WSS.on('connection', (ws, req) => {
-	ws.on('close', (data) => {
+WSS.on('connection', (ws: WebSocket, req) => {
+	ws.on('close', (data: WebSocket.CloseEvent) => {
 		if (servers.find((s) => s.socket === ws)) {
 			const server = servers.find((s) => s.socket === ws);
 
