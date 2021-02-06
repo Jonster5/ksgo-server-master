@@ -7,12 +7,9 @@ export default {
 	input: './src/index.ts',
 	output: [
 		{
+			sourcemap: true,
 			file: 'build/debug/index.js',
 			format: 'cjs',
-		},
-		{
-			file: 'build/debug/index.es.js',
-			format: 'es',
 		},
 	],
 	external: [
@@ -22,6 +19,7 @@ export default {
 	plugins: [
 		typescript({
 			typescript: require('typescript'),
+			useTsconfigDeclarationDir: true,
 		}),
 		json(),
 		sourcemaps(),

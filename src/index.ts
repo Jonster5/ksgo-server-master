@@ -3,42 +3,42 @@ import WebSocket from 'ws';
 const port = process.env.PORT || 4000;
 const WSS = new WebSocket.Server({ port: parseInt(`${port}`) });
 
-declare type MessageID =
+const clients: Array<ClientListItem> = [];
+const servers: Array<ServerListItem> = [];
+
+export type MessageID =
 	| 'server-connect'
 	| 'server-connect-confirm'
 	| 'user-connect'
 	| 'user-connect-confirm'
 	| 'user-serverlist-update';
 
-declare interface ClientListItem {
+export interface ClientListItem {
 	id: string;
 	name: string;
 	socket: WebSocket;
 }
 
-declare interface ServerListItem {
+export interface ServerListItem {
 	id: string;
 	name: string;
 	address: string;
 	socket: WebSocket;
 }
 
-declare interface MessageItem {
+export interface MessageItem {
 	id: MessageID;
 	content: any;
 }
 
-declare interface ServerConnectContent {
+export interface ServerConnectContent {
 	name: string;
 	address: string;
 }
 
-declare interface ClientConnectContent {
+export interface ClientConnectContent {
 	name: '';
 }
-
-const clients: Array<ClientListItem> = [];
-const servers: Array<ServerListItem> = [];
 
 console.clear();
 // console.log(servers.size, clients.size);

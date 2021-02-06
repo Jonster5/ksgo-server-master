@@ -12,7 +12,7 @@
 		"serve": "nodemon --watch --exec node build/debug/index.js",
 		"start": "node build/prod/index.js"
 	},
-	"types": "build/debug/index.d.ts",
+	"types": "build/types/index.d.ts",
 	"repository": "https://github.com/Jonster5/ksgo-server-master.git",
 	"author": "Jonster5 <onlyaccelerating@gmail.com>",
 	"license": "GPL-3.0",

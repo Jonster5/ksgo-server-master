@@ -10,10 +10,6 @@ export default {
 			file: 'build/prod/index.js',
 			format: 'cjs',
 		},
-		{
-			file: 'build/prod/index.es.js',
-			format: 'esm',
-		},
 	],
 	external: [
 		...Object.keys(pkg.dependencies || {}),
@@ -22,6 +18,7 @@ export default {
 	plugins: [
 		typescript({
 			typescript: require('typescript'),
+			useTsconfigDeclarationDir: true,
 		}),
 		json(),
 		terser(),

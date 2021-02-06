@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
       "declaration": true,
-      "declarationDir": "./build",
-      "sourceMap": true,
+      "declarationDir": "./build/types",
+      "inlineSourceMap": true,
       "module": "es6",
       "moduleResolution": "node",
       "resolveJsonModule": true,
@@ -10,7 +10,7 @@
       "noImplicitAny": true,
       "outDir": "./build",
       "target": "ES6",
-      "newLine": "crlf"
+      "newLine": "crlf",
     },
     "include": [
       "./src/**/*"
